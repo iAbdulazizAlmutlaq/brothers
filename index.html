@@ -287,8 +287,8 @@
 <div class="modal-backdrop cheer-modal" id="cheerBackdrop">
   <div class="cheer-card" role="dialog" aria-modal="true" aria-label="أحسنت">
     <div class="cheer-spark">✦</div>
-    <p class="cheer-msg" id="cheerMsg">أحسنت!</p>
-    <button class="btn-primary cheer-btn" id="cheerBtn">مستمرين😍</button>
+    <p class="cheer-msg" id="cheerMsg">مكمليين؟ 😍🚀</p>
+    <button class="btn-primary cheer-btn" id="cheerBtn">مكمليين 💪🏼💪🏼💪🏼</button>
   </div>
 </div>
 
@@ -896,53 +896,34 @@ function renderModal(){
 }
 
 /* ================= celebratory popup on completion ================= */
-/* each cheer pairs a message with a button reply that answers it directly,
-   same playful Najdi tone — popup now stays open until Abdullah taps the button. */
-const CHEERS = [
-  {msg:'كفوووو!🚀', btn:'مستمرين😍'},
-  {msg:'صح عليك، تفهم يخيي🔥', btn:'دايم كذا يخيي🔥'},
-  {msg:'هذا العلم ولا بلاااش😍😍', btn:'الجاي افضل وافضل🚀'},
-  {msg:'وربي اسطورة! واااصل💕', btn:'واصلين ان شاء الله💪🏼'},
-  {msg:'يلومونا فيك عبوود😼', btn:'وش تبون بعد😼'},
-  {msg:'بطل الأبطال 🦸🏻‍♂️', btn:'صامدين 🦸🏻‍♂️'},
-  {msg:'ولا بيب بيب يشييخ 😂😂', btn:'تمام يشيخ 😂'},
-  {msg:'باللهي كفك 😻✋🏼', btn:'هاي فايف ✋🏼'},
-  {msg:'قبلة من الاسرة على هذا الإبداع 😘💕', btn:'يستاهل قبلة 😘'},
-  {msg:'له له له! تبارك الرحمن 🔥🔥', btn:'اللهم لك الحمد🩵'},
-  {msg:'فييييي منتصف المرمى 😍⚽️', btn:'هدف ثاني جاي ⚽️'},
-  {msg:'ضربة خاطييييفة قاااااضية 🥊🥊', btn:'ضربة ثانية جايه 🥊'},
-  {msg:'ايش النسخة الجديدة هذي 🎉💞', btn:'نسخة أحلى وجايه 🎉'},
-  {msg:'الزوجة في الطريق😍', btn:'جهزوا الدعوة😍'},
-  {msg:'سؤال: يقرب لك سوبر مان 🦸🏻‍♂️🔥', btn:'أقرب من كذا ما فيه🔥'},
-  {msg:'ياخي اهدا شوي، فيك طاقة زايدة ⚡️😂', btn:'هدي شوي يابطل ⚡️😂'},
-  {msg:'مو معقولة الجدية هذي 👏🏼🔥', btn:'جدية توصل للقمر👏🏼'},
-  {msg:'صراحة نفسي أصير مثلك 🥹💛', btn:'خلني اتعلم منك🥹'},
-  {msg:'خل الكل يسمع: عبود واصل! 📣🚀', btn:'سمّعهم يا عبود📣'},
-  {msg:'هذا مو ثبات، هذا احتراف 🎯', btn:'احترافية محضة🎯'},
-  {msg:'الله يديم عليك هالنشاط 🌟', btn:'اللهم لك الحمد🩵'},
-  {msg:'شكلك بديت تاخذها بجد جد 😎', btn:'جد وماله شرط😎'},
-  {msg:'يا سلام يا سلام 👏🏼👏🏼', btn:'كذا نبيك دايم👏🏼'},
-  {msg:'أسطورة بشحمها ولحمها 🐐', btn:'قوووت🐐'},
-  {msg:'واحد من مليون، هذا انت 💯', btn:'وحيد زمانك💯'},
-  {msg:'خطوة خطوة وصلنا القمر 🌙🚀', btn:'الجاي افضل وافضل🚀'},
-  {msg:'تحسبك متعب؟ لا والله متوحش 🐺🔥', btn:'متوحش ومستمر🐺'}
-];
-let lastCheer=-1;
+/* fixed message + button every time; tapping the button swaps in a quick
+   family thank-you note for a moment, then the popup closes on its own. */
+const CHEER_MSG = 'مكمليين؟ 😍🚀';
+const CHEER_BTN = 'مكمليين 💪🏼💪🏼💪🏼';
+const CHEER_THANKS = 'والعائلة معك مكملين 💞💞';
 function celebratePop(){
   const back=document.getElementById('cheerBackdrop');
   const msg=document.getElementById('cheerMsg');
   const btn=document.getElementById('cheerBtn');
   if(!back||!msg) return;
-  let i;
-  do { i=Math.floor(Math.random()*CHEERS.length); } while(i===lastCheer && CHEERS.length>1);
-  lastCheer=i;
-  msg.textContent=CHEERS[i].msg;
-  if(btn) btn.textContent=CHEERS[i].btn;
+  msg.textContent=CHEER_MSG;
+  if(btn){ btn.textContent=CHEER_BTN; btn.style.display=''; }
+  back.classList.remove('cheer-thanks');
   back.classList.add('show');
+}
+function confirmCheer(){
+  const back=document.getElementById('cheerBackdrop');
+  const msg=document.getElementById('cheerMsg');
+  const btn=document.getElementById('cheerBtn');
+  if(!back||!msg) return;
+  msg.textContent=CHEER_THANKS;
+  if(btn) btn.style.display='none';
+  back.classList.add('cheer-thanks');
+  setTimeout(closeCheer, 1400);
 }
 function closeCheer(){
   const back=document.getElementById('cheerBackdrop');
-  if(back) back.classList.remove('show');
+  if(back) back.classList.remove('show','cheer-thanks');
 }
 
 /* ================= edit-mode passcode gate ================= */
@@ -1009,7 +990,7 @@ function buildStars(){
     if(ev.key==='Enter') submitPasscode();
   });
 
-  document.getElementById('cheerBtn').onclick = closeCheer;
+  document.getElementById('cheerBtn').onclick = confirmCheer;
   document.getElementById('cheerBackdrop').onclick = (ev)=>{
     if(ev.target.id==='cheerBackdrop') closeCheer();
   };
