@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استقامة</title>
+<title>عبود: سوبرمان</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
@@ -31,7 +31,7 @@
   body{
     background:var(--ink);
     color:var(--paper-text);
-    font-family:'Inter',sans-serif;
+    font-family:'IBM Plex Sans Arabic','Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
     overflow-x:hidden;
@@ -60,14 +60,16 @@
 
   /* ---------- header / legend ---------- */
   header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px;flex-wrap:wrap;}
-  .legend{display:flex;gap:14px;font-size:12px;color:var(--muted);}
-  .legend-item{display:flex;align-items:center;gap:6px;}
-  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
-  .dot-abdullah{background:var(--honey-light);}
-  .dot-abdulaziz{background:var(--emerald-light);}
-  .meta{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted-2);line-height:1.5;}
+  .head-right{display:flex;align-items:center;gap:10px;}
+  /* day-of-challenge chip — small, warm, minimal */
+  .daychip{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg, rgba(215,154,44,0.16), rgba(215,154,44,0.05));border:1px solid var(--border-strong);border-radius:999px;padding:6px 14px 6px 12px;}
+  .daychip .dc-moon{color:var(--honey-light);font-size:13px;line-height:1;}
+  .daychip .dc-label{font-size:11px;color:var(--muted);}
+  .daychip .dc-num{font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:700;font-size:18px;color:var(--honey-light);line-height:1;}
+  .daychip .dc-of{font-size:11px;color:var(--muted-2);}
+  .meta{text-align:left;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11px;color:var(--muted-2);line-height:1.5;}
   .meta .hijri{color:var(--honey-light);}
-  .sync-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted-2);margin-right:5px;vertical-align:1px;}
+  .sync-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted-2);margin-left:5px;vertical-align:1px;}
   .sync-ok .sync-dot{background:var(--emerald);}
   .sync-error .sync-dot{background:var(--berry);}
 
@@ -78,36 +80,36 @@
   .gear-btn.active{background:var(--honey);border-color:var(--honey-light);color:var(--ink-deep);}
   .gear-btn:focus-visible{outline:2px solid var(--honey-light);outline-offset:2px;}
   .edit-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(215,154,44,0.12);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 13px;margin-bottom:14px;font-size:11.5px;color:var(--honey-light);}
-  .edit-banner button{background:none;border:1px solid rgba(240,195,109,0.4);color:var(--honey-light);border-radius:999px;padding:4px 11px;font-size:11px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .edit-banner button{background:none;border:1px solid rgba(240,195,109,0.4);color:var(--honey-light);border-radius:999px;padding:4px 11px;font-size:11px;cursor:pointer;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;}
   .edit-icons{display:flex;gap:2px;flex:none;}
   .edit-icon{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:14px;padding:3px 5px;border-radius:6px;}
   .edit-icon:hover{color:var(--honey-light);background:rgba(239,230,206,0.06);}
   .edit-icon.danger:hover{color:var(--berry);}
 
   .passcode-modal .modal{max-width:300px;text-align:center;}
-  .passcode-modal input{width:100%;text-align:center;letter-spacing:3px;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.18);color:var(--paper-text);border-radius:9px;padding:10px;font-size:16px;font-family:'IBM Plex Mono',monospace;margin:14px 0 6px;}
+  .passcode-modal input{width:100%;text-align:center;letter-spacing:3px;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.18);color:var(--paper-text);border-radius:9px;padding:10px;font-size:16px;font-family:'IBM Plex Sans Arabic','IBM Plex Mono',monospace;margin:14px 0 6px;}
   .passcode-modal .pc-error{font-size:11px;color:var(--berry);min-height:15px;margin-bottom:8px;}
   .passcode-modal .pc-note{font-size:10.5px;color:var(--muted-2);line-height:1.5;margin-top:10px;}
 
   .edit-form{display:none;width:100%;margin-top:8px;background:rgba(10,33,29,0.5);border:1px solid rgba(240,195,109,0.2);border-radius:10px;padding:10px;}
   .edit-form.show{display:block;}
-  .edit-form input{width:100%;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.16);color:var(--paper-text);border-radius:7px;padding:7px 9px;font-size:12.5px;font-family:'Inter',sans-serif;margin-bottom:7px;}
+  .edit-form input{width:100%;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.16);color:var(--paper-text);border-radius:7px;padding:7px 9px;font-size:12.5px;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;margin-bottom:7px;}
   .edit-form .row2{display:grid;grid-template-columns:2.4fr 1fr;gap:7px;}
 
   /* ---------- celebrate ---------- */
   .celebrate{background:linear-gradient(135deg, rgba(215,154,44,0.16), rgba(176,84,106,0.1));border:1px solid var(--border-strong);border-radius:var(--radius);padding:22px;margin-bottom:22px;text-align:center;backdrop-filter:blur(10px);}
   .celebrate .ar{font-family:'Amiri',serif;font-size:20px;color:var(--honey-light);margin:0 0 6px;}
   .celebrate p.msg{font-size:12.5px;color:var(--muted);margin:0 0 14px;line-height:1.6;}
-  .btn-primary{background:var(--honey);color:var(--ink-deep);border:none;border-radius:999px;padding:10px 20px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:'Inter',sans-serif;}
+  .btn-primary{background:var(--honey);color:var(--ink-deep);border:none;border-radius:999px;padding:10px 20px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;}
 
   /* ---------- freq sections ---------- */
   .freq-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);backdrop-filter:blur(16px);overflow:hidden;margin-bottom:14px;}
   .sec-head{width:100%;background:none;border:none;color:inherit;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:16px 18px;font-family:inherit;}
   .sec-head:focus-visible{outline:2px solid var(--honey-light);outline-offset:-2px;}
-  .sec-title{font-family:'Amiri',serif;font-weight:700;font-size:17px;color:var(--paper-text);display:flex;align-items:center;gap:10px;}
+  .sec-title{font-family:'Amiri',serif;font-weight:700;font-size:15.5px;color:var(--paper-text);display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
   .sec-title .caret{font-size:11px;color:var(--muted-2);transition:transform .3s ease;}
   .freq-section.collapsed .sec-title .caret{transform:rotate(-90deg);}
-  .sec-frac{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
+  .sec-frac{font-family:'IBM Plex Sans Arabic','IBM Plex Mono',monospace;font-size:12px;color:var(--muted);flex:none;}
 
   .sec-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .32s ease;}
   .freq-section.collapsed .sec-body{grid-template-rows:0fr;}
@@ -119,37 +121,36 @@
   .goal-emoji{font-size:17px;flex:none;}
   .goal-name{font-size:13.5px;color:var(--paper-text);font-weight:500;}
   .goal-name button.q{background:none;border:none;color:var(--muted-2);font-size:11px;cursor:pointer;margin-left:6px;padding:0;text-decoration:underline;text-underline-offset:2px;}
-  .goal-badge{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted);background:rgba(10,33,29,0.4);border:1px solid rgba(239,230,206,0.14);border-radius:999px;padding:3px 8px;margin-right:2px;}
+  .goal-badge{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:10.5px;color:var(--muted);background:rgba(10,33,29,0.4);border:1px solid rgba(239,230,206,0.14);border-radius:999px;padding:3px 8px;margin-left:2px;}
+
+  /* completed row: gentle honey tint + softened name (satisfying single-person checklist) */
+  .goal-row.done{background:linear-gradient(90deg, rgba(215,154,44,0.08), transparent 70%);border-radius:12px;}
+  .goal-row.done .goal-name{color:var(--muted);}
 
   .controls{display:flex;gap:6px;flex:none;}
-  .pdot{width:22px;height:22px;border-radius:50%;border:2px solid rgba(239,230,206,0.25);background:none;cursor:pointer;padding:0;transition:all .18s ease;}
-  .pdot.p-abdullah{border-color:rgba(240,195,109,0.5);}
-  .pdot.p-abdulaziz{border-color:rgba(126,220,187,0.5);}
-  .pdot.p-abdullah.on{background:var(--honey);border-color:var(--honey-light);box-shadow:0 0 8px rgba(240,195,109,0.5);}
-  .pdot.p-abdulaziz.on{background:var(--emerald);border-color:var(--emerald-light);box-shadow:0 0 8px rgba(63,191,149,0.5);}
+  .pdot{width:24px;height:24px;border-radius:50%;border:2px solid rgba(240,195,109,0.5);background:none;cursor:pointer;padding:0;transition:all .18s ease;}
+  .pdot.on{background:var(--honey);border-color:var(--honey-light);box-shadow:0 0 9px rgba(240,195,109,0.55);}
   .pdot:focus-visible{outline:2px solid var(--honey-light);outline-offset:2px;}
 
-  .ppill{font-family:'IBM Plex Mono',monospace;font-size:10.5px;border-radius:999px;padding:4px 8px;cursor:pointer;background:rgba(10,33,29,0.4);transition:all .18s ease;}
-  .ppill.p-abdullah{border:1.5px solid rgba(240,195,109,0.4);color:var(--honey-light);}
-  .ppill.p-abdulaziz{border:1.5px solid rgba(126,220,187,0.4);color:var(--emerald-light);}
-  .ppill.reached.p-abdullah{background:rgba(215,154,44,0.18);border-color:var(--honey-light);}
-  .ppill.reached.p-abdulaziz{background:rgba(63,191,149,0.18);border-color:var(--emerald-light);}
-  .ppill:focus-visible{outline:2px solid var(--honey-light);outline-offset:2px;}
+  /* weekly day-button: round, carries the weekday name, fills when done */
+  .pday{min-width:40px;height:40px;padding:0 6px;border-radius:999px;border:2px solid rgba(240,195,109,0.5);background:rgba(10,33,29,0.4);cursor:pointer;font-family:'IBM Plex Sans Arabic',sans-serif;font-size:11px;font-weight:600;color:var(--honey-light);transition:all .18s ease;display:inline-flex;align-items:center;justify-content:center;flex:none;}
+  .pday.on{background:var(--honey);border-color:var(--honey-light);color:var(--ink-deep);box-shadow:0 0 10px rgba(240,195,109,0.55);}
+  .pday:focus-visible{outline:2px solid var(--honey-light);outline-offset:2px;}
 
   .info-panel{display:none;font-size:11.5px;color:var(--muted);line-height:1.6;background:rgba(10,33,29,0.5);border-radius:10px;padding:11px 13px;margin:2px 0 8px;width:100%;}
   .info-panel.show{display:block;}
   .info-panel strong{color:var(--paper-text);}
 
   .sec-add-row{margin-top:4px;}
-  .sec-add{background:none;border:1px dashed rgba(239,230,206,0.22);color:var(--muted);border-radius:10px;padding:7px 0;width:100%;font-size:11.5px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .18s ease;}
+  .sec-add{background:none;border:1px dashed rgba(239,230,206,0.22);color:var(--muted);border-radius:10px;padding:7px 0;width:100%;font-size:11.5px;cursor:pointer;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;transition:all .18s ease;}
   .sec-add:hover{border-color:var(--honey-light);color:var(--honey-light);}
 
   .mini-form{display:none;margin-top:8px;background:rgba(10,33,29,0.4);border-radius:10px;padding:10px;}
   .mini-form.show{display:block;}
-  .mini-form input{width:100%;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.16);color:var(--paper-text);border-radius:7px;padding:7px 9px;font-size:12.5px;font-family:'Inter',sans-serif;margin-bottom:7px;}
+  .mini-form input{width:100%;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.16);color:var(--paper-text);border-radius:7px;padding:7px 9px;font-size:12.5px;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;margin-bottom:7px;}
   .mini-form .row2{display:grid;grid-template-columns:2fr 1fr;gap:7px;}
   .mini-form-actions{display:flex;gap:8px;margin-top:2px;}
-  .btn-mini{flex:1;border-radius:8px;padding:7px 0;font-size:11.5px;cursor:pointer;font-family:'Inter',sans-serif;border:none;font-weight:600;}
+  .btn-mini{flex:1;border-radius:8px;padding:7px 0;font-size:11.5px;cursor:pointer;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;border:none;font-weight:600;}
   .btn-mini.save{background:var(--honey);color:var(--ink-deep);}
   .btn-mini.cancel{background:none;border:1px solid rgba(239,230,206,0.18);color:var(--muted);}
   .remove-x{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:15px;padding:2px 4px;flex:none;}
@@ -184,20 +185,36 @@
   }
   .modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px;}
   .modal-close:hover{color:var(--paper-text);}
-  .modal-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--honey-light);text-align:center;margin:0 0 20px;}
-  .modal-eyebrow b{font-family:'Amiri',serif;font-size:26px;color:var(--paper-text);font-weight:700;margin-right:4px;}
-  .chain{position:relative;display:flex;justify-content:space-between;align-items:center;padding:0 4px;height:34px;margin-bottom:22px;}
-  .chain::before{content:"";position:absolute;left:2px;right:2px;top:50%;height:1.5px;background:linear-gradient(90deg, rgba(240,195,109,0.3), rgba(240,195,109,0.08));transform:translateY(-50%);}
-  .bead{position:relative;width:13px;height:13px;border-radius:50%;background:var(--ink-deep);border:2px solid rgba(239,230,206,0.28);opacity:0.55;transition:all .25s ease;}
+  .modal-eyebrow{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:13px;color:var(--honey-light);text-align:center;margin:0 0 20px;display:flex;align-items:baseline;justify-content:center;gap:8px;}
+  .modal-eyebrow b{font-family:'IBM Plex Sans Arabic',sans-serif;font-size:34px;color:var(--paper-text);font-weight:700;line-height:1;}
+  .modal-eyebrow .mday-of{font-size:14px;color:var(--muted-2);}
+  /* wrapping bead grid — comfortably holds 45 beads across rows */
+  .chain{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;align-items:center;padding:4px 2px;margin-bottom:14px;}
+  .bead{position:relative;width:13px;height:13px;border-radius:50%;background:var(--ink-deep);border:2px solid rgba(239,230,206,0.28);opacity:0.5;transition:all .25s ease;}
   .bead.half{background:rgba(215,154,44,0.4);border-color:var(--honey);opacity:0.85;}
-  .bead.full{background:var(--honey);border-color:var(--honey-light);opacity:1;box-shadow:0 0 12px rgba(240,195,109,0.6);}
-  .bead.today{transform:scale(1.4);}
-  .bead.today::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(240,195,109,0.55);}
-  @media(max-width:480px){.bead{width:9px;height:9px;}}
-  .modal-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .mstat{background:rgba(239,230,206,0.04);border:1px solid rgba(239,230,206,0.09);border-radius:var(--radius-sm);padding:13px 14px;}
-  .mstat .num{font-family:'IBM Plex Mono',monospace;font-size:20px;color:var(--honey-light);}
-  .mstat .label{font-size:10.5px;color:var(--muted);margin-top:2px;}
+  .bead.full{background:var(--honey);border-color:var(--honey-light);opacity:1;box-shadow:0 0 10px rgba(240,195,109,0.55);}
+  /* milestone days (15 / 30 / 45): distinct emerald ring, brighter when reached */
+  .bead.milestone{border-color:var(--emerald);opacity:0.8;}
+  .bead.milestone::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(63,191,149,0.45);}
+  .bead.milestone.full{background:var(--emerald);border-color:var(--emerald-light);box-shadow:0 0 12px rgba(63,191,149,0.7);}
+  .bead.milestone.full::before{border-color:var(--emerald-light);}
+  .bead.today{transform:scale(1.45);}
+  .bead.today::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(240,195,109,0.6);}
+  .chain-caption{text-align:center;font-family:'IBM Plex Sans Arabic','IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin:2px 0 2px;}
+  @media(max-width:480px){.chain{gap:8px;}.bead{width:11px;height:11px;}}
+
+  /* form helpers for edit/add rows */
+  .mini-label{font-size:11px;color:var(--muted);align-self:center;}
+  .wd-select{width:100%;background:rgba(10,33,29,0.6);border:1px solid rgba(239,230,206,0.16);color:var(--paper-text);border-radius:7px;padding:7px 9px;font-size:12.5px;font-family:'IBM Plex Sans Arabic','Inter',sans-serif;}
+  .mini-form .row2, .edit-form .row2{align-items:center;}
+
+  /* celebratory popup */
+  .cheer-modal{z-index:40;}
+  .cheer-card{background:linear-gradient(180deg,#1B4038,#123029);border:1px solid var(--border-strong);border-radius:var(--radius);padding:26px 28px 22px;text-align:center;max-width:300px;width:100%;box-shadow:0 14px 44px rgba(0,0,0,0.4);animation:cheerPop .32s cubic-bezier(.2,.9,.3,1.3);}
+  @keyframes cheerPop{0%{transform:scale(.8);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  .cheer-spark{font-size:24px;color:var(--honey-light);margin-bottom:4px;}
+  .cheer-msg{font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:600;font-size:19px;line-height:1.5;color:var(--paper-text);margin:0 0 16px;}
+  .cheer-btn{width:100%;}
 </style>
 </head>
 <body>
@@ -212,13 +229,10 @@
 
 <div class="wrap">
   <header>
-    <div class="legend">
-      <span class="legend-item"><i class="dot dot-abdullah"></i>Abdullah</span>
-      <span class="legend-item"><i class="dot dot-abdulaziz"></i>Abdulaziz</span>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;">
+    <div class="daychip" id="dayChip" aria-label="يوم التحدي"></div>
+    <div class="head-right">
       <div class="meta" id="metaBlock"></div>
-      <button class="gear-btn" id="gearBtn" aria-label="Edit goals" title="Edit goals">
+      <button class="gear-btn" id="gearBtn" aria-label="تعديل الأهداف" title="تعديل الأهداف">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="3"></circle>
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>
@@ -234,34 +248,42 @@
   <div id="sections"></div>
 
   <footer>
-    <p class="ar">وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ</p>
+    <p class="ar">حلق يا عبوووود 🚀🚀</p>
   </footer>
 </div>
 
-<button class="fab" id="progressBtn" aria-label="View progress" title="View progress">
+<button class="fab" id="progressBtn" aria-label="عرض التقدّم" title="عرض التقدّم">
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" fill="#0C201D"/>
   </svg>
 </button>
 
 <div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal" id="modalCard" role="dialog" aria-modal="true" aria-label="Progress">
-    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-    <p class="modal-eyebrow"><b id="mDayNum">1</b>of <span id="mCycleLen">14</span></p>
+  <div class="modal" id="modalCard" role="dialog" aria-modal="true" aria-label="التقدّم">
+    <button class="modal-close" id="modalClose" aria-label="إغلاق">&times;</button>
+    <p class="modal-eyebrow"><b id="mDayNum">١</b><span class="mday-of">من <span id="mCycleLen">٤٥</span></span></p>
     <div class="chain" id="beadChain"></div>
-    <div class="modal-stats" id="modalStats"></div>
+    <p class="chain-caption" id="chainCaption"></p>
   </div>
 </div>
 
 <div class="modal-backdrop passcode-modal" id="passcodeBackdrop">
-  <div class="modal" id="passcodeCard" role="dialog" aria-modal="true" aria-label="Enter passcode">
-    <button class="modal-close" id="passcodeClose" aria-label="Close">&times;</button>
-    <p class="modal-eyebrow" style="margin-bottom:4px;">Edit goals</p>
-    <p style="font-size:11.5px;color:var(--muted);margin:0;">Enter the passcode to unlock editing.</p>
+  <div class="modal" id="passcodeCard" role="dialog" aria-modal="true" aria-label="أدخل الرمز">
+    <button class="modal-close" id="passcodeClose" aria-label="إغلاق">&times;</button>
+    <p class="modal-eyebrow" style="margin-bottom:4px;">تعديل الأهداف</p>
+    <p style="font-size:11.5px;color:var(--muted);margin:0;">أدخل الرمز لفتح وضع التعديل.</p>
     <input type="password" id="passcodeInput" inputmode="numeric" maxlength="12" placeholder="••••••••">
     <p class="pc-error" id="passcodeError"></p>
-    <button class="btn-primary" id="passcodeSubmit" style="width:100%;">Unlock</button>
-    <p class="pc-note">This is a light lock to prevent accidental edits between two brothers sharing this page — not real security. Anyone who views the page source can find the passcode.</p>
+    <button class="btn-primary" id="passcodeSubmit" style="width:100%;">فتح</button>
+    <p class="pc-note">هذا قفل بسيط لمنع التعديلات غير المقصودة فقط — وليس حماية حقيقية. يمكن لأي شخص يطّلع على مصدر الصفحة معرفة الرمز.</p>
+  </div>
+</div>
+
+<div class="modal-backdrop cheer-modal" id="cheerBackdrop">
+  <div class="cheer-card" role="dialog" aria-modal="true" aria-label="أحسنت">
+    <div class="cheer-spark">✦</div>
+    <p class="cheer-msg" id="cheerMsg">أحسنت!</p>
+    <button class="btn-primary cheer-btn" id="cheerBtn">دائماً 🚀</button>
   </div>
 </div>
 
@@ -272,13 +294,27 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const ROW_ID = 'shared';
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const PEOPLE = ['abdullah','abdulaziz'];
-const HIJRI_MONTHS = ['Muharram','Safar',"Rabi' I","Rabi' II",'Jumada I','Jumada II','Rajab',"Sha'ban",'Ramadan','Shawwal',"Dhul Qi'dah",'Dhul Hijjah'];
+const HIJRI_MONTHS = ['محرّم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوّال','ذو القعدة','ذو الحجّة'];
+const WEEKDAYS = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];        // full (selectors)
+const WEEKDAYS_SHORT = ['أحد','إثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'];               // button labels
 const SECTIONS = [
-  {key:'daily', label:'Daily', match: h=>h.freq==='daily'},
-  {key:'weekly', label:'Weekly', match: h=>h.freq==='weekly'},
-  {key:'monthly', label:'Monthly', match: h=>h.freq==='monthly-hijri' || h.freq==='monthly-day'}
+  {key:'daily', label:'أهدافي اليوم', match: h=>h.freq==='daily'},
+  {key:'weekly', label:'أهدافي هذا الإسبوع', match: h=>h.freq==='weekly'},
+  {key:'monthly', label:'أهدافي هذا الشهر', match: h=>h.freq==='monthly-hijri' || h.freq==='monthly-day'}
 ];
+
+/* Western → Eastern Arabic numerals, for a fully-Arabic display */
+function ar(n){ return String(n).replace(/[0-9]/g, d=>'٠١٢٣٤٥٦٧٨٩'[d]); }
+/* Eastern → Western, so a passcode typed on an Arabic keyboard still matches */
+function toLatinDigits(s){ return String(s).replace(/[٠-٩]/g, d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)); }
+/* human-friendly Arabic "days away" label */
+function daysLabel(n){
+  if(n<=0) return 'اليوم';
+  if(n===1) return 'غداً';
+  if(n===2) return 'يومان';
+  if(n<=10) return ar(n)+' أيام';
+  return ar(n)+' يوماً';
+}
 
 let state = null;
 let collapsedSections = {daily:false, weekly:false, monthly:false};
@@ -324,25 +360,69 @@ function findNextHijri17(fromDate, targetDay){
 }
 function hijriPeriodKey(h){return h.year+'-'+h.month;}
 
+/* ---- weekday helpers (weekly goals are tied to a specific weekday) ---- */
+/* Next occurrence of a given weekday (0=Sun..6=Sat), searching from today's week.
+   Returns {date, daysAway} where daysAway can be negative if it already passed
+   earlier this week (still checkable for the current week). */
+function nextWeekday(fromDate, dow){
+  const ws=weekStart(fromDate);              // Sunday of this week
+  const due=addDays(ws, dow);                // this week's occurrence
+  return {date:due, daysAway:daysBetween(fromDate, due)};
+}
+
 /* ================= state ================= */
 function defaultState(){
   const today=todayDate();
   return {
     habits:[
-      {id:'honey', name:'Honey', emoji:'🍯', freq:'daily', builtin:true},
-      {id:'blackseed', name:'Black Seed', emoji:'🌿', freq:'daily', builtin:true},
-      {id:'zamzam', name:'Zamzam Water', emoji:'💧', freq:'daily', builtin:true},
-      {id:'costus', name:'Indian Costus', emoji:'🪵', freq:'weekly', target:2, builtin:true},
-      {id:'cupping', name:'Cupping (Hijama)', emoji:'🔥', freq:'monthly-hijri', hijriDay:17, builtin:true}
+      {id:'honey', name:'عسل', emoji:'🍯', freq:'daily', builtin:true},
+      {id:'blackseed', name:'الحبة السوداء', emoji:'🌿', freq:'daily', builtin:true},
+      {id:'zamzam', name:'ماء زمزم', emoji:'💧', freq:'daily', builtin:true},
+      {id:'costus', name:'القسط الهندي', emoji:'🪵', freq:'weekly', dayOfWeek:5, builtin:true},
+      {id:'cupping', name:'الحجامة', emoji:'🔥', freq:'monthly-hijri', hijriDay:17, builtin:true}
     ],
     checkins:{},
-    cycle:{start: dateKey(today), length:14},
+    cycle:{start: dateKey(today), length:45},
     cyclesCompleted:0
   };
 }
+/* Bring older saved states up to the current single-person model:
+   - weekly habits must carry a dayOfWeek (older ones used a numeric target)
+   - check-ins are now a single boolean per period (drop the old {abdullah,abdulaziz}
+     object and any legacy numeric counts, keeping Abdullah's value)
+   - drop orphan check-ins whose habit no longer exists */
+function normalizeState(s){
+  s.habits = s.habits || [];
+  s.habits.forEach(h=>{
+    if(h.freq==='weekly' && (h.dayOfWeek===undefined || h.dayOfWeek===null)){
+      h.dayOfWeek = 5;            // default to Friday
+    }
+    delete h.target;
+    delete h.owner;
+  });
+  const ids = new Set(s.habits.map(h=>h.id));
+  const src = s.checkins || {};
+  const out = {};
+  for(const hid in src){
+    if(!ids.has(hid)) continue;                    // orphan → drop
+    const periods = src[hid]; const kept = {};
+    for(const pk in periods){
+      let v = periods[pk];
+      if(v && typeof v==='object') v = truthy(v.abdullah);   // old two-person shape
+      else v = truthy(v);
+      if(v) kept[pk] = true;                        // store only completions
+    }
+    if(Object.keys(kept).length) out[hid] = kept;
+  }
+  s.checkins = out;
+  if(!s.cycle) s.cycle = {start: dateKey(todayDate()), length:45};
+  if(!s.cycle.length) s.cycle.length = 45;
+  return s;
+}
 function mergeWithDefaults(parsed){
   const d = defaultState();
-  return Object.assign(d, parsed, {habits: parsed.habits || d.habits, checkins: parsed.checkins || {}});
+  const merged = Object.assign(d, parsed, {habits: parsed.habits || d.habits, checkins: parsed.checkins || {}});
+  return normalizeState(merged);
 }
 
 async function loadState(){
@@ -350,12 +430,15 @@ async function loadState(){
     const {data, error} = await sb.from('tracker_state').select('data').eq('id', ROW_ID).single();
     if(error || !data){
       const fresh = defaultState();
+      lastSavedJSON=JSON.stringify(fresh);
       await sb.from('tracker_state').upsert({id: ROW_ID, data: fresh, updated_at: new Date().toISOString()});
       setSyncStatus('ok');
       return fresh;
     }
     setSyncStatus('ok');
-    return mergeWithDefaults(data.data);
+    const loaded=mergeWithDefaults(data.data);
+    lastSavedJSON=JSON.stringify(loaded);
+    return loaded;
   }catch(e){
     console.error('load error', e);
     setSyncStatus('error');
@@ -363,19 +446,28 @@ async function loadState(){
   }
 }
 let saveTimer=null;
+let lastSavedJSON=null;      // remember what we last wrote, to ignore our own realtime echo
+let savePending=false;
+async function flushSave(){
+  savePending=false;
+  clearTimeout(saveTimer);
+  try{
+    const json=JSON.stringify(state);
+    lastSavedJSON=json;
+    const {error} = await sb.from('tracker_state').upsert({id: ROW_ID, data: state, updated_at: new Date().toISOString()});
+    if(error) throw error;
+    setSyncStatus('ok');
+  }catch(e){
+    console.error('save error', e);
+    setSyncStatus('error');
+    savePending=true;          // let a later flush retry
+  }
+}
 function saveState(){
   setSyncStatus('saving');
+  savePending=true;
   clearTimeout(saveTimer);
-  saveTimer=setTimeout(async ()=>{
-    try{
-      const {error} = await sb.from('tracker_state').upsert({id: ROW_ID, data: state, updated_at: new Date().toISOString()});
-      if(error) throw error;
-      setSyncStatus('ok');
-    }catch(e){
-      console.error('save error', e);
-      setSyncStatus('error');
-    }
-  }, 250);
+  saveTimer=setTimeout(flushSave, 250);
 }
 function setSyncStatus(s){
   const el=document.getElementById('metaBlock');
@@ -387,29 +479,28 @@ function subscribeRealtime(){
   sb.channel('tracker_state_changes')
     .on('postgres_changes', {event:'*', schema:'public', table:'tracker_state', filter:`id=eq.${ROW_ID}`}, payload=>{
       if(payload.new && payload.new.data){
+        const incoming=JSON.stringify(payload.new.data);
+        if(incoming===lastSavedJSON) return;   // our own write echoing back — ignore
         state = mergeWithDefaults(payload.new.data);
+        lastSavedJSON=JSON.stringify(state);
         render();
       }
     })
     .subscribe();
 }
 
-/* ================= checkin helpers ================= */
-function getEntry(habitId, periodKey){
+/* ================= checkin helpers (single person: one boolean per period) ===== */
+function truthy(v){ return !!v && v!==0; }
+function isDone(habitId, periodKey){
+  return !!(state.checkins[habitId] && truthy(state.checkins[habitId][periodKey]));
+}
+function toggleDone(habitId, periodKey){
   if(!state.checkins[habitId]) state.checkins[habitId]={};
-  if(!state.checkins[habitId][periodKey]) state.checkins[habitId][periodKey]={abdullah:false, abdulaziz:false};
-  return state.checkins[habitId][periodKey];
-}
-function toggleBool(habitId, periodKey, person){
-  const e=getEntry(habitId, periodKey);
-  e[person]=!e[person];
+  const nowOn = !truthy(state.checkins[habitId][periodKey]);
+  if(nowOn) state.checkins[habitId][periodKey]=true;
+  else delete state.checkins[habitId][periodKey];   // keep the blob lean
   saveState(); render();
-}
-function cycleWeekly(habitId, periodKey, person, target){
-  const e=getEntry(habitId, periodKey);
-  const cur=e[person]||0;
-  e[person]=(cur+1)>target?0:cur+1;
-  saveState(); render();
+  if(nowOn) celebratePop();      // only cheer when checking ON, never on un-checking
 }
 
 /* ================= cycle / completion math ================= */
@@ -419,16 +510,10 @@ function dailyIds(){
 function dayCompletion(dateStr){
   const ids=dailyIds();
   if(ids.length===0) return 0;
-  let both=0, any=0;
-  ids.forEach(id=>{
-    const e=state.checkins[id] && state.checkins[id][dateStr];
-    if(e){
-      if(e.abdullah && e.abdulaziz) both++;
-      else if(e.abdullah || e.abdulaziz) any++;
-    }
-  });
-  if(both===ids.length) return 2;
-  if(both>0||any>0) return 1;
+  let done=0;
+  ids.forEach(id=>{ if(isDone(id, dateStr)) done++; });
+  if(done===ids.length) return 2;
+  if(done>0) return 1;
   return 0;
 }
 function cycleStatus(){
@@ -443,6 +528,7 @@ function cycleStatus(){
 
 /* ================= rendering ================= */
 function render(){
+  renderDayChip();
   renderMeta();
   renderEditBanner();
   renderCelebrate();
@@ -452,12 +538,20 @@ function render(){
   if(gear) gear.classList.toggle('active', editMode);
 }
 
+function renderDayChip(){
+  const el=document.getElementById('dayChip');
+  if(!el) return;
+  const cs=cycleStatus();
+  el.innerHTML=`<span class="dc-moon">☾</span><span class="dc-label">اليوم</span>`+
+    `<span class="dc-num">${ar(cs.dayNum)}</span><span class="dc-of">من ${ar(cs.length)}</span>`;
+}
+
 function renderEditBanner(){
   const slot=document.getElementById('editBannerSlot');
   if(!editMode){ slot.innerHTML=''; return; }
   slot.innerHTML=`<div class="edit-banner">
-    <span>✏️ Edit mode — tap the pencil to rename, or the × to remove a goal.</span>
-    <button id="lockEditBtn">Done</button>
+    <span>✏️ وضع التعديل — اضغط القلم للتعديل أو × للحذف.</span>
+    <button id="lockEditBtn">تم</button>
   </div>`;
   document.getElementById('lockEditBtn').onclick=()=>{
     editMode=false; openEditFormId=null; render();
@@ -469,8 +563,8 @@ function renderMeta(){
   const today=todayDate();
   const h=toHijri(today);
   const sync=el.dataset.sync||'saving';
-  const label = sync==='ok'?'Synced':sync==='saving'?'Saving…':'Offline';
-  el.innerHTML = `<div class="hijri">${h.day} ${HIJRI_MONTHS[h.month-1]} ${h.year}h</div>
+  const label = sync==='ok'?'محفوظ':sync==='saving'?'جارٍ الحفظ…':'غير متصل';
+  el.innerHTML = `<div class="hijri">${ar(h.day)} ${HIJRI_MONTHS[h.month-1]} ${ar(h.year)}هـ</div>
     <div class="sync-${sync}"><span class="sync-dot"></span>${label}</div>`;
 }
 
@@ -482,9 +576,9 @@ function renderCelebrate(){
   for(let i=0;i<cs.length;i++) if(dayCompletion(dateKey(addDays(cs.start,i)))===2) filled++;
   const pct=Math.round((filled/cs.length)*100);
   slot.innerHTML=`<div class="celebrate">
-    <p class="ar">بارك الله فيكما</p>
-    <p class="msg">${cs.length} days done, ${pct}% together. Time for the next goal.</p>
-    <button class="btn-primary" id="nextCycleBtn">Start next cycle</button>
+    <p class="ar">بارك الله فيك</p>
+    <p class="msg">أتممت ${ar(cs.length)} يوماً بنسبة ${ar(pct)}٪. حان وقت الهدف التالي.</p>
+    <button class="btn-primary" id="nextCycleBtn">ابدأ الدورة التالية</button>
   </div>`;
   document.getElementById('nextCycleBtn').onclick=()=>{
     state.cycle.start=dateKey(todayDate());
@@ -493,20 +587,13 @@ function renderCelebrate(){
   };
 }
 
-/* ---- goal row rendering ---- */
-function personControlsHTML(h, periodKey){
-  if(h.freq==='weekly'){
-    const e=(state.checkins[h.id] && state.checkins[h.id][periodKey]) || {abdullah:0,abdulaziz:0};
-    return PEOPLE.map(p=>{
-      const val=e[p]||0;
-      return `<button class="ppill p-${p}${val>=h.target?' reached':''}" data-habit="${h.id}" data-period="${periodKey}" data-person="${p}" data-kind="week" data-target="${h.target}" title="${p}">${val}/${h.target}</button>`;
-    }).join('');
+/* ---- goal row rendering (single person → one control per row) ---- */
+function controlHTML(h, periodKey, dayLabel){
+  const on = isDone(h.id, periodKey);
+  if(dayLabel){   // weekly: circular button carrying the weekday name
+    return `<button class="pday${on?' on':''}" data-habit="${h.id}" data-period="${periodKey}" title="${h.name}" aria-label="${h.name} (${dayLabel})">${dayLabel}</button>`;
   }
-  const e=state.checkins[h.id] && state.checkins[h.id][periodKey];
-  return PEOPLE.map(p=>{
-    const on = e && e[p];
-    return `<button class="pdot p-${p}${on?' on':''}" data-habit="${h.id}" data-period="${periodKey}" data-person="${p}" data-kind="bool" title="${p}" aria-label="${p} — ${h.name}"></button>`;
-  }).join('');
+  return `<button class="pdot${on?' on':''}" data-habit="${h.id}" data-period="${periodKey}" aria-label="${h.name}"></button>`;
 }
 
 function goalRowHTML(h){
@@ -516,16 +603,18 @@ function goalRowHTML(h){
   if(h.freq==='daily'){
     return goalRowWrap(h, `
       <div class="goal-left"><span class="goal-emoji">${h.emoji}</span><span class="goal-name">${h.name}</span></div>
-      <div class="controls">${personControlsHTML(h, today)}</div>
-    `);
+      <div class="controls">${controlHTML(h, today)}</div>
+    `, isDone(h.id, today));
   }
   if(h.freq==='weekly'){
-    const infoBtn = h.id==='costus' ? `<button class="q" data-info-toggle="costus">why this amount?</button>` : '';
+    const dow = (h.dayOfWeek===undefined||h.dayOfWeek===null) ? 5 : h.dayOfWeek;
+    const nd = nextWeekday(todayDate(), dow);
+    const badge = nd.daysAway>=0 ? daysLabel(nd.daysAway) : 'هذا الأسبوع';
     return goalRowWrap(h, `
-      <div class="goal-left"><span class="goal-emoji">${h.emoji}</span><span class="goal-name">${h.name}${infoBtn}</span></div>
-      <div class="controls">${personControlsHTML(h, wk)}</div>
-      ${h.id==='costus' ? `<div class="info-panel" id="info-costus"><strong>Dose note:</strong> no formal clinical dose is established for Qust al-Hindi. Traditional use: about ¼ tsp (~1g) mixed with honey, once or twice a week. Source from a trusted supplier, avoid in pregnancy/breastfeeding, skip if allergic to ragweed, and check with a pharmacist if on medication.</div>` : ''}
-    `);
+      <div class="goal-left"><span class="goal-emoji">${h.emoji}</span><span class="goal-name">${h.name}</span>
+        <span class="goal-badge">${badge}</span></div>
+      <div class="controls">${controlHTML(h, wk, WEEKDAYS_SHORT[dow])}</div>
+    `, isDone(h.id, wk));
   }
   if(h.freq==='monthly-hijri'){
     const next=findNextHijri17(todayDate(), h.hijriDay);
@@ -534,26 +623,25 @@ function goalRowHTML(h){
     const daysAway=daysBetween(todayDate(), next.date);
     return goalRowWrap(h, `
       <div class="goal-left"><span class="goal-emoji">${h.emoji}</span><span class="goal-name">${h.name}</span>
-        <span class="goal-badge">${daysAway===0?'today':daysAway+'d'}</span></div>
-      <div class="controls">${personControlsHTML(h, pkey)}</div>
-    `);
+        <span class="goal-badge">${daysLabel(daysAway)}</span></div>
+      <div class="controls">${controlHTML(h, pkey)}</div>
+    `, isDone(h.id, pkey));
   }
   if(h.freq==='monthly-day'){
     const today2=todayDate();
     const mkey=today2.getFullYear()+'-'+(today2.getMonth()+1);
     return goalRowWrap(h, `
       <div class="goal-left"><span class="goal-emoji">${h.emoji}</span><span class="goal-name">${h.name}</span>
-        <span class="goal-badge">day ${h.dayOfMonth}</span></div>
-      <div class="controls">${personControlsHTML(h, mkey)}</div>
-    `);
+        <span class="goal-badge">يوم ${ar(h.dayOfMonth)}</span></div>
+      <div class="controls">${controlHTML(h, mkey)}</div>
+    `, isDone(h.id, mkey));
   }
   return '';
 }
 
-/* Wraps a goal row's inner markup with edit-mode icons + inline edit form. Used for
-   both built-in and custom goals — edit mode is the single affordance for both now. */
-function goalRowWrap(h, innerHTML){
-  return `<div class="goal-row">
+/* Wraps a goal row's inner markup with edit-mode icons + inline edit form. */
+function goalRowWrap(h, innerHTML, done){
+  return `<div class="goal-row${done?' done':''}">
       ${innerHTML}
       ${editIconsHTML(h)}
       ${editMode ? editFormHTML(h) : ''}
@@ -563,8 +651,8 @@ function goalRowWrap(h, innerHTML){
 function editIconsHTML(h){
   if(!editMode) return '';
   return `<div class="edit-icons">
-    <button class="edit-icon" data-edit-open="${h.id}" aria-label="Edit ${h.name}" title="Edit">✎</button>
-    <button class="edit-icon danger" data-remove="${h.id}" aria-label="Remove ${h.name}" title="Remove">&times;</button>
+    <button class="edit-icon" data-edit-open="${h.id}" aria-label="تعديل ${h.name}" title="تعديل">✎</button>
+    <button class="edit-icon danger" data-remove="${h.id}" aria-label="حذف ${h.name}" title="حذف">&times;</button>
   </div>`;
 }
 
@@ -572,21 +660,22 @@ function editFormHTML(h){
   const open = openEditFormId===h.id;
   let extraField='';
   if(h.freq==='weekly'){
-    extraField=`<div class="row2"><span></span><input type="number" id="edit-extra-${h.id}" value="${h.target}" min="1" max="7"></div>`;
+    const dow=(h.dayOfWeek===undefined||h.dayOfWeek===null)?5:h.dayOfWeek;
+    extraField=`<div class="row2"><label class="mini-label">اليوم</label>${weekdaySelectHTML('edit-extra-'+h.id, dow)}</div>`;
   }else if(h.freq==='monthly-day'){
-    extraField=`<div class="row2"><span></span><input type="number" id="edit-extra-${h.id}" value="${h.dayOfMonth}" min="1" max="28"></div>`;
+    extraField=`<div class="row2"><label class="mini-label">يوم الشهر</label><input type="number" id="edit-extra-${h.id}" value="${h.dayOfMonth}" min="1" max="28"></div>`;
   }else if(h.freq==='monthly-hijri'){
-    extraField=`<div class="row2"><span></span><input type="number" id="edit-extra-${h.id}" value="${h.hijriDay}" min="1" max="30"></div>`;
+    extraField=`<div class="row2"><label class="mini-label">اليوم الهجري</label><input type="number" id="edit-extra-${h.id}" value="${h.hijriDay}" min="1" max="30"></div>`;
   }
   return `<div class="edit-form${open?' show':''}" id="editform-${h.id}">
     <div class="row2">
-      <input type="text" id="edit-name-${h.id}" placeholder="Goal name" value="${h.name.replace(/"/g,'&quot;')}">
+      <input type="text" id="edit-name-${h.id}" placeholder="اسم الهدف" value="${h.name.replace(/"/g,'&quot;')}">
       <input type="text" id="edit-emoji-${h.id}" placeholder="🌱" value="${h.emoji}">
     </div>
     ${extraField}
     <div class="mini-form-actions">
-      <button class="btn-mini save" data-edit-save="${h.id}">Save</button>
-      <button class="btn-mini cancel" data-edit-cancel="${h.id}">Cancel</button>
+      <button class="btn-mini save" data-edit-save="${h.id}">حفظ</button>
+      <button class="btn-mini cancel" data-edit-cancel="${h.id}">إلغاء</button>
     </div>
   </div>`;
 }
@@ -601,31 +690,23 @@ function sectionFraction(sec){
   const mkey=today2.getFullYear()+'-'+(today2.getMonth()+1);
   let done=0, total=0;
   habits.forEach(h=>{
-    PEOPLE.forEach(p=>{
-      total++;
-      if(h.freq==='daily'){
-        const e=state.checkins[h.id] && state.checkins[h.id][today];
-        if(e && e[p]) done++;
-      }else if(h.freq==='weekly'){
-        const e=state.checkins[h.id] && state.checkins[h.id][wk];
-        if(e && (e[p]||0) >= h.target) done++;
-      }else if(h.freq==='monthly-hijri'){
-        const next=findNextHijri17(todayDate(), h.hijriDay);
-        if(next){
-          const pkey=hijriPeriodKey(next.hijri);
-          const e=state.checkins[h.id] && state.checkins[h.id][pkey];
-          if(e && e[p]) done++;
-        }
-      }else if(h.freq==='monthly-day'){
-        const e=state.checkins[h.id] && state.checkins[h.id][mkey];
-        if(e && e[p]) done++;
-      }
-    });
+    total++;
+    let pk=null;
+    if(h.freq==='daily') pk=today;
+    else if(h.freq==='weekly') pk=wk;
+    else if(h.freq==='monthly-hijri'){ const next=findNextHijri17(todayDate(), h.hijriDay); pk=next?hijriPeriodKey(next.hijri):null; }
+    else if(h.freq==='monthly-day') pk=mkey;
+    if(pk && isDone(h.id, pk)) done++;
   });
   return {done, total};
 }
 
 /* ---- sections ---- */
+function weekdaySelectHTML(id, selected){
+  return `<select id="${id}" class="wd-select">`+
+    WEEKDAYS.map((w,i)=>`<option value="${i}"${i===selected?' selected':''}>${w}</option>`).join('')+
+    `</select>`;
+}
 function renderSections(){
   const wrap=document.getElementById('sections');
   wrap.innerHTML = SECTIONS.map(sec=>{
@@ -635,23 +716,23 @@ function renderSections(){
     return `<section class="freq-section${collapsed?' collapsed':''}" data-sec="${sec.key}">
       <button class="sec-head" data-collapse="${sec.key}">
         <span class="sec-title"><span class="caret">▾</span>${sec.label}</span>
-        <span class="sec-frac">${frac ? frac.done+'/'+frac.total : ''}</span>
+        <span class="sec-frac">${frac ? ar(frac.done)+' / '+ar(frac.total) : ''}</span>
       </button>
       <div class="sec-body">
         <div class="sec-body-inner">
           ${habits.map(goalRowHTML).join('')}
-          <div class="sec-add-row">
-            <button class="sec-add" data-add="${sec.key}">+ add goal</button>
+          ${editMode ? `<div class="sec-add-row">
+            <button class="sec-add" data-add="${sec.key}">+ إضافة هدف</button>
             <div class="mini-form" id="form-${sec.key}">
-              <input type="text" id="name-${sec.key}" placeholder="Goal name">
-              ${sec.key==='weekly' ? `<div class="row2"><span></span><input type="number" id="extra-${sec.key}" placeholder="Times/week" value="3" min="1" max="7"></div>` : ''}
-              ${sec.key==='monthly' ? `<div class="row2"><span></span><input type="number" id="extra-${sec.key}" placeholder="Day of month" value="1" min="1" max="28"></div>` : ''}
+              <input type="text" id="name-${sec.key}" placeholder="اسم الهدف">
+              ${sec.key==='weekly' ? `<div class="row2"><label class="mini-label">اليوم</label>${weekdaySelectHTML('extra-'+sec.key, 5)}</div>` : ''}
+              ${sec.key==='monthly' ? `<div class="row2"><label class="mini-label">يوم الشهر</label><input type="number" id="extra-${sec.key}" placeholder="يوم الشهر" value="1" min="1" max="28"></div>` : ''}
               <div class="mini-form-actions">
-                <button class="btn-mini save" data-save="${sec.key}">Add</button>
-                <button class="btn-mini cancel" data-cancel="${sec.key}">Cancel</button>
+                <button class="btn-mini save" data-save="${sec.key}">إضافة</button>
+                <button class="btn-mini cancel" data-cancel="${sec.key}">إلغاء</button>
               </div>
             </div>
-          </div>
+          </div>` : ''}
         </div>
       </div>
     </section>`;
@@ -667,19 +748,11 @@ function bindSectionEvents(){
       renderSections();
     };
   });
-  document.querySelectorAll('.pdot, .ppill').forEach(btn=>{
+  document.querySelectorAll('.pdot, .pday').forEach(btn=>{
     btn.onclick=(ev)=>{
       ev.stopPropagation();
-      const {habit, period, person, kind, target}=btn.dataset;
-      if(kind==='week') cycleWeekly(habit, period, person, Number(target));
-      else toggleBool(habit, period, person);
-    };
-  });
-  document.querySelectorAll('[data-info-toggle]').forEach(btn=>{
-    btn.onclick=(ev)=>{
-      ev.stopPropagation();
-      const panel=document.getElementById('info-'+btn.dataset.infoToggle);
-      if(panel) panel.classList.toggle('show');
+      const {habit, period}=btn.dataset;
+      toggleDone(habit, period);
     };
   });
   document.querySelectorAll('[data-remove]').forEach(btn=>{
@@ -717,10 +790,10 @@ function bindSectionEvents(){
       h.name=name;
       h.emoji=(emojiEl.value.trim())||h.emoji;
       if(extraEl){
-        const val=Number(extraEl.value)||1;
-        if(h.freq==='weekly') h.target=Math.min(Math.max(val,1),7);
-        else if(h.freq==='monthly-day') h.dayOfMonth=Math.min(Math.max(val,1),28);
-        else if(h.freq==='monthly-hijri') h.hijriDay=Math.min(Math.max(val,1),30);
+        const val=Number(extraEl.value);
+        if(h.freq==='weekly') h.dayOfWeek=Math.min(Math.max(val,0),6);
+        else if(h.freq==='monthly-day') h.dayOfMonth=Math.min(Math.max(val||1,1),28);
+        else if(h.freq==='monthly-hijri') h.hijriDay=Math.min(Math.max(val||1,1),30);
       }
       openEditFormId=null;
       saveState(); render();
@@ -750,11 +823,11 @@ function bindSectionEvents(){
       const name=document.getElementById('name-'+k).value.trim();
       if(!name) return;
       const extraInput = document.getElementById('extra-'+k);
-      const extra = extraInput ? (Number(extraInput.value)||1) : 1;
+      const extra = extraInput ? Number(extraInput.value) : 0;
       const habit={id:'g_'+Date.now(), name, emoji:'🌱', builtin:false};
       if(k==='daily') habit.freq='daily';
-      else if(k==='weekly'){ habit.freq='weekly'; habit.target=Math.min(Math.max(extra,1),7); }
-      else if(k==='monthly'){ habit.freq='monthly-day'; habit.dayOfMonth=Math.min(Math.max(extra,1),28); }
+      else if(k==='weekly'){ habit.freq='weekly'; habit.dayOfWeek=Math.min(Math.max(extra,0),6); }
+      else if(k==='monthly'){ habit.freq='monthly-day'; habit.dayOfMonth=Math.min(Math.max(extra||1,1),28); }
       state.habits.push(habit);
       saveState();
       render();
@@ -774,35 +847,80 @@ function closeModal(){
 }
 function renderModal(){
   const cs = cycleStatus();
-  document.getElementById('mDayNum').textContent = cs.dayNum;
-  document.getElementById('mCycleLen').textContent = cs.length;
+  document.getElementById('mDayNum').textContent = ar(cs.dayNum);
+  document.getElementById('mCycleLen').textContent = ar(cs.length);
 
+  const MILESTONES = [15, 30, 45];   // 1-based day numbers that get a distinct marker
   const chain=document.getElementById('beadChain');
   chain.innerHTML='';
-  for(let i=0;i<cs.length;i++){
-    const d=addDays(cs.start,i);
-    const c=d>cs.today?-1:dayCompletion(dateKey(d));
-    const bead=document.createElement('div');
-    bead.className='bead'+(c===2?' full':c===1?' half':'')+(dateKey(d)===dateKey(cs.today)?' today':'');
-    bead.title=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});
-    chain.appendChild(bead);
-  }
-
   let full=0, tracked=0;
   for(let i=0;i<cs.length;i++){
     const d=addDays(cs.start,i);
-    if(d>cs.today) continue;
-    tracked++;
-    if(dayCompletion(dateKey(d))===2) full++;
+    const future=d>cs.today;
+    const c=future?-1:dayCompletion(dateKey(d));   // 2=all daily done → filled
+    if(!future){ tracked++; if(c===2) full++; }
+    const bead=document.createElement('div');
+    const isMilestone = MILESTONES.includes(i+1);
+    bead.className='bead'
+      +(c===2?' full':c===1?' half':'')
+      +(dateKey(d)===dateKey(cs.today)?' today':'')
+      +(isMilestone?' milestone':'');
+    bead.title='اليوم '+ar(i+1)+(isMilestone?' · محطة':'');
+    chain.appendChild(bead);
   }
-  const pct = tracked ? Math.round((full/tracked)*100) : 0;
 
-  document.getElementById('modalStats').innerHTML = `
-    <div class="mstat"><div class="num">${pct}%</div><div class="label">Days both completed the daily three</div></div>
-    <div class="mstat"><div class="num">${full}/${tracked}</div><div class="label">Full days this cycle</div></div>
-    <div class="mstat"><div class="num">${state.cyclesCompleted||0}</div><div class="label">Cycles completed together</div></div>
-    <div class="mstat"><div class="num">${cs.length-cs.dayNum}</div><div class="label">Days left in this cycle</div></div>
-  `;
+  const cap=document.getElementById('chainCaption');
+  if(cap) cap.textContent = `${ar(full)} من ${ar(tracked)} يوم مكتمل`;
+}
+
+/* ================= celebratory popup on completion ================= */
+const CHEERS = [
+  'كفوووو!🚀',
+  'صح عليك، تفهم يخيي🔥',
+  'هذا العلم ولا بلاااش😍😍',
+  'وربي اسطورة! واااصل💕',
+  'يلومونا فيك عبوود😼',
+  'بطل الأبطال 🦸🏻‍♂️',
+  'ولا بيب بيب يشييخ 😂😂',
+  'باللهي كفك 😻✋🏼',
+  'قبلة من الاسرة على هذا الإبداع 😘💕',
+  'له له له! تبارك الرحمن 🔥🔥',
+  'فييييي منتصف المرمى 😍⚽️',
+  'ضربة خاطييييفة قاااااضية 🥊🥊',
+  'ايش النسخة الجديدة هذي 🎉💞',
+  'الزوجة في الطريق😍',
+  'سؤال: يقرب لك سوبر مان 🦸🏻‍♂️🔥',
+  'ياخي اهدا شوي، فيك طاقة زايدة ⚡️😂',
+  'مو معقولة الجدية هذي 👏🏼🔥',
+  'صراحة نفسي أصير مثلك 🥹💛',
+  'خل الكل يسمع: عبود واصل! 📣🚀',
+  'هذا مو ثبات، هذا احتراف 🎯',
+  'الله يديم عليك هالنشاط 🌟',
+  'شكلك بديت تاخذها بجد جد 😎',
+  'يا سلام يا سلام 👏🏼👏🏼',
+  'أسطورة بشحمها ولحمها 🐐',
+  'واحد من مليون، هذا انت 💯',
+  'خطوة خطوة وصلنا القمر 🌙🚀',
+  'تحسبك متعب؟ لا والله متوحش 🐺🔥'
+];
+let lastCheer=-1;
+let cheerTimer=null;
+function celebratePop(){
+  const back=document.getElementById('cheerBackdrop');
+  const msg=document.getElementById('cheerMsg');
+  if(!back||!msg) return;
+  let i;
+  do { i=Math.floor(Math.random()*CHEERS.length); } while(i===lastCheer && CHEERS.length>1);
+  lastCheer=i;
+  msg.textContent=CHEERS[i];
+  back.classList.add('show');
+  clearTimeout(cheerTimer);
+  cheerTimer=setTimeout(closeCheer, 1900);   // auto-return so rapid check-ins stay fast
+}
+function closeCheer(){
+  clearTimeout(cheerTimer);
+  const back=document.getElementById('cheerBackdrop');
+  if(back) back.classList.remove('show');
 }
 
 /* ================= edit-mode passcode gate ================= */
@@ -818,12 +936,12 @@ function closePasscodeModal(){
 }
 function submitPasscode(){
   const input=document.getElementById('passcodeInput');
-  if(input.value===EDIT_PASSCODE){
+  if(toLatinDigits(input.value)===EDIT_PASSCODE){   // accept Arabic-Indic digits too
     editMode=true;
     closePasscodeModal();
     render();
   }else{
-    document.getElementById('passcodeError').textContent='Wrong passcode — try again.';
+    document.getElementById('passcodeError').textContent='رمز غير صحيح — حاول مجدداً.';
     input.value='';
     input.focus();
   }
@@ -869,10 +987,20 @@ function buildStars(){
     if(ev.key==='Enter') submitPasscode();
   });
 
+  document.getElementById('cheerBtn').onclick = closeCheer;
+  document.getElementById('cheerBackdrop').onclick = (ev)=>{
+    if(ev.target.id==='cheerBackdrop') closeCheer();
+  };
+
   document.addEventListener('keydown', (ev)=>{
     if(ev.key==='Escape' && modalOpen) closeModal();
     if(ev.key==='Escape' && document.getElementById('passcodeBackdrop').classList.contains('show')) closePasscodeModal();
+    if(ev.key==='Escape' && document.getElementById('cheerBackdrop').classList.contains('show')) closeCheer();
   });
+
+  // don't lose a pending debounced save if the tab is hidden or closed
+  document.addEventListener('visibilitychange', ()=>{ if(document.hidden && savePending) flushSave(); });
+  window.addEventListener('pagehide', ()=>{ if(savePending) flushSave(); });
 })();
 </script>
 </body>
